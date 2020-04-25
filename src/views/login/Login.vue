@@ -38,9 +38,12 @@
           ></mu-text-field>
         </mu-form-item>
         <mu-form-item>
-          <img ref="verifyImg">
+          <img
+            ref="verifyImg"
+            @click="refresh()"
+          />
         </mu-form-item>
-        <mu-form-item
+        <!-- <mu-form-item
           prop="isAgree"
           :rules="argeeRules"
         >
@@ -48,7 +51,7 @@
             label="同意用户协议"
             v-model="validateForm.isAgree"
           ></mu-checkbox>
-        </mu-form-item>
+        </mu-form-item> -->
 
         <mu-form-item>
           <mu-button
@@ -58,7 +61,8 @@
           <mu-button @click="clear">重置</mu-button>
         </mu-form-item>
       </mu-form>
-      <mu-dialog
+    </mu-container>
+    <!-- <mu-dialog
         title="Dialog"
         width="360"
         :open.sync="openSimple"
@@ -70,8 +74,27 @@
           color="primary"
           @click="closeSimpleDialog"
         >Close</mu-button>
-      </mu-dialog>
-    </mu-container>
+      </mu-dialog> -->
+    <!--遮罩-->
+    <div
+      class="mask"
+      v-if="show"
+    >
+      <div class="dialog">
+        <h3>请选择要进入系统的角色</h3>
+        <div class="btn-wrapper">
+          <mu-button
+            v-for="(role, index) in roles"
+            :key="index"
+            color="primary"
+            class="btn"
+            @click="gotoIndex(role.roleId)"
+          >
+            {{ role.roleName }}
+          </mu-button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <!-- 获取本地ip地址  <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>-->
@@ -94,14 +117,15 @@ export default {
       validateForm: {
         username: '',
         password: '',
-        isAgree: false,
+        // isAgree: false,
         // 获取本地ip地址
         // userIp: document.write(returnCitySN['cip'])
         userIp: '',
         checkcode: ''
       },
       menuList: [],
-      openSimple: false
+      openSimple: false,
+      show: false
     }
   },
   components: {},
@@ -124,10 +148,8 @@ export default {
       if (this.userIp.length > 0) {
         this.$axios({
           method: 'post',
-          url: 'http://localhost:8080/captcha',
-          data: {
-            userIp: this.userIp
-          }
+          url: 'http://localhost:8080/captcha?userIp=' + this.userIp,
+          responseType: 'blob'
         }).then((res) => {
           let img = this.$refs.verifyImg
           let url = window.URL.createObjectURL(res.data)
@@ -141,57 +163,78 @@ export default {
     closeSimpleDialog() {
       this.openSimple = false
     },
+
     submit() {
-      this.$refs.form.validate().then((result) => {
-        console.log('form valid: ', result)
-        // //模拟后端接口数据
-        // let user = {
-        //   userId: '1802343210',
-        //   username: 'ntt',
-        //   userRole: 'admin',
-        //   avatar:
-        //     'https://avatars3.githubusercontent.com/u/58495771?s=460&u=bb2f820d0cb11cf18fa5a2c787261db55023c0cc&v=4'
-        // }
-        // this.menuList = [
-        //   { title: 'Dashboard', icon: 'mdi-view-dashboard', url: '/dashboard', subMenus: [] },
-        //   {
-        //     title: '音乐管理',
-        //     icon: 'mdi-music',
-        //     url: '',
-        //     subMenus: [
-        //       {
-        //         title: '歌单管理',
-        //         icon: 'mdi-domain',
-        //         url: '/music-list',
-        //         permissions: []
-        //       },
-        //       {
-        //         title: '歌曲管理',
-        //         icon: 'mdi-text',
-        //         url: '/music',
-        //         permissions: ['music:add', 'music:edit', 'music:delete']
-        //       }
-        //     ]
-        //   },
-        //   { title: 'About', icon: 'mdi-help-box', url: '/about', subMenus: [] }
-        // ]
-        localStorage.setItem('token', 'EcIHTAWoGrmMVvTu2LPvuL-siq6hAfieVeehl-HTe_M')
-        // localStorage.setItem('user', JSON.stringify(user))
-        localStorage.setItem('menuList', JSON.stringify(this.menuList))
-        this.$store.commit('setToken', 'EcIHTAWoGrmMVvTu2LPvuL-siq6hAfieVeehl-HTe_M')
-        // this.$store.commit('setUser', user)
-        this.$store.commit('setMenuList', this.menuList)
-        this.$router.push('/')
-        this.openSimpleDialog()
+      this.$axios({
+        method: 'post',
+        url: 'http://localhost:8080/sysAdmin/login',
+        data: {
+          username: this.validateForm.username,
+          password: this.validateForm.password,
+          checkCode: this.validateForm.checkcode,
+          userIp: this.validateForm.userIp
+        }
+      }).then((res) => {
+        if (res.data.token !== null) {
+          //存token
+          localStorage.setItem('token', res.data.token)
+          this.$store.commit('setToken', res.data.token)
+          let admin = {
+            id: res.data.admin.id,
+            name: res.data.admin.name,
+            roles: res.data.admin.roles,
+            avatar: res.data.admin.avatar
+          }
+          // alert(admin)
+          //存admin
+          localStorage.setItem('admin', JSON.stringify(admin))
+          this.$store.commit('setAdmin', JSON.stringify(admin))
+          this.roles = res.data.admin.roles
+          //角色数量超过1个
+          if (this.roles.length > 1) {
+            //弹出遮罩层选择
+            alert('登录成功，你的角色不止一个，请选择')
+            //显示遮罩层，遮罩层按钮具体点击事件 gotoDashboard(roleId)
+            this.show = true
+          } else {
+            //只有一个角色
+            const roleId = res.data.admin.roles[0].roleId
+            this.$router.push({
+              path: '/',
+              query: {
+                roleId: roleId
+              }
+            })
+            alert(roleId)
+          }
+        }
       })
+    },
+    gotoIndex(roleId) {
+      // alert('权限：' + roleId)
+      this.$router.push({
+        path: '/',
+        query: {
+          roleId: roleId
+        }
+      })
+      // alert(roleId)
+      // this.$router.push({
+      //   name: '/',
+      //   params: { roleId }
+      // })
     },
     clear() {
       this.$refs.form.clear()
       this.validateForm = {
         username: '',
-        password: '',
-        isAgree: false
+        password: ''
+        // isAgree: false
       }
+    },
+    refresh() {
+      //点击验证码图片，重新请求，刷新
+      this.init()
     }
   },
   computed: {},
@@ -211,7 +254,7 @@ export default {
     #7bc6cc,
     #be93c5
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background-image: url('../assets/images/5.jpg');
+  background-image: url('../../assets/images/5.jpg');
   opacity: 0.8;
   height: 100vh;
   display: flex;
@@ -219,10 +262,48 @@ export default {
   justify-content: center;
 }
 .mu-demo-form {
+  max-width: 300px;
+  margin-left: 14px;
+  margin-top: -70px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+}
+.login-form {
   max-width: 500px;
   margin-left: 300px;
   background-color: #fff;
   border-radius: 10px;
   padding: 10px;
+}
+.mask {
+  z-index: 900;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .dialog {
+    z-index: 1000;
+    width: 300px;
+    height: 200px;
+    line-height: 100px;
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    padding-top: 50px;
+    .btn-wrapper {
+      margin-left: 25px;
+      margin-top: -30px;
+      display: flex;
+      .btn {
+        margin: 20px;
+      }
+    }
+  }
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <v-card max-width="375" class="mx-auto">
+    <!-- <p>本系统没说明</p> -->
+    <!-- <v-card max-width="375" class="mx-auto">
       <v-img src="https://cdn.vuetifyjs.com/images/lists/ali.png" height="300px" dark>
         <v-row class="fill-height">
           <v-card-title>
@@ -52,7 +53,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-card>
+    </v-card> -->
   </v-container>
 </template>
 

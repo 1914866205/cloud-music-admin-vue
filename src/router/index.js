@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Layout from '../views/Layout.vue'
-import Dashboard from '../views/Dashboard.vue'
+import Layout from '../views/index/Layout.vue'
+import Dashboard from '../views/index/Dashboard.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -18,34 +18,34 @@ const routes = [
       {
         path: '/about',
         name: 'About',
-        component: () => import('../views/About.vue')
+        component: () => import('../views/other/About.vue')
       },
       {
         path: '/music-list',
         name: 'MusicList',
-        component: () => import('../views/MusicList.vue')
+        component: () => import('../views/music/MusicList.vue')
       },
       {
         path: '/music',
         name: 'Music',
-        component: () => import('../views/Music.vue')
+        component: () => import('../views/music/Music.vue')
       },
       {
         path: '/role',
         name: 'Role',
-        component: () => import('../views/Role.vue')
+        component: () => import('../views/permission/Role.vue')
       },
       {
         path: '/menu',
         name: 'Menu',
-        component: () => import('../views/Menu.vue')
+        component: () => import('../views/permission/Menu.vue')
       }
     ]
   },
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/Login.vue')
+    component: () => import('../views/login/Login.vue')
   }
 ]
 

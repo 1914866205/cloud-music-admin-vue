@@ -1,7 +1,11 @@
 <template>
-  <v-card max-width="400" class="mx-auto">
+  <v-card
+    max-width="400"
+    class="mx-auto"
+  >
     <v-container class="pa-1">
-      <v-item-group v-model="selected" multiple>
+      <p>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
+      <!-- <v-item-group v-model="selected" multiple>
         <v-row>
           <v-col v-for="(item, i) in items" :key="i" cols="12" md="6">
             <v-item v-slot:default="{ active, toggle }">
@@ -15,7 +19,7 @@
             </v-item>
           </v-col>
         </v-row>
-      </v-item-group>
+      </v-item-group> -->
     </v-container>
   </v-card>
 </template>

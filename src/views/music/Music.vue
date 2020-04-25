@@ -1,6 +1,6 @@
 <template>
   <div style="padding-top:10px;">
-    <span v-for="(item, index) in permissions" :key="index" class="gutter">
+    <!-- <span v-for="(item, index) in permissions" :key="index" class="gutter">
       <mu-button color="teal" v-if="item === 'music:add'">添加歌曲</mu-button>
       <mu-button color="success" v-if="item === 'music:edit'">编辑歌曲</mu-button>
       <mu-button color="error" v-if="item === 'music:delete'">删除歌曲</mu-button>
@@ -12,7 +12,7 @@
         <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
       </v-card-title>
       <v-data-table :headers="headers" :items="desserts" :search="search"></v-data-table>
-    </v-card>
+    </v-card> -->
   </div>
 </template>
 
