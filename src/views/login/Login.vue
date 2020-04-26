@@ -5,6 +5,7 @@
         ref="form"
         :model="validateForm"
         class="mu-demo-form"
+        style="background-color:#00BCD4;margin-left:25px;margin-top:20px"
       >
         <mu-form-item
           label="用户名"
@@ -57,8 +58,12 @@
           <mu-button
             color="primary"
             @click="submit"
+            style="background-color:#448AFF;color:white;left:30px"
           >提交</mu-button>
-          <mu-button @click="clear">重置</mu-button>
+          <mu-button
+            @click="clear"
+            style="background-color:#448AFF;color:white;left:40px"
+          >重置</mu-button>
         </mu-form-item>
       </mu-form>
     </mu-container>
@@ -205,7 +210,6 @@ export default {
                 roleId: roleId
               }
             })
-            alert(roleId)
           }
         }
       })
@@ -271,7 +275,7 @@ export default {
 }
 .login-form {
   max-width: 500px;
-  margin-left: 300px;
+  margin-left: 330px;
   background-color: #fff;
   border-radius: 10px;
   padding: 10px;

@@ -24,15 +24,16 @@
         <v-btn
           icon
           @click="logout()"
+          style="position:absolute;right:20px"
         >
           <v-card-text>退出</v-card-text>
         </v-btn>
         <v-btn
           icon
-          @click="show=!show"
-          style="position:absolute;top:530px;right:50px"
+          @click="show = !show"
+          style="position:absolute;top:600px;right:20px"
         >
-          <v-card-text>{{ this.show ? '关闭' : '开启' }}</v-card-text>
+          <v-card-text>{{ this.show ? '隐藏' : '显示' }}</v-card-text>
         </v-btn>
       </v-app-bar>
     </v-card>
@@ -46,38 +47,44 @@
         theme="dark"
         active-name="0"
         class="ntt-menu"
-        style="width: 120px"
+        style="position:absolute;width: 100px;top:100px;right:20px"
         v-show="show"
       >
         <v-list-group
           v-for="(item, index) in menuList"
           :key="index"
-          style="width:148px"
+          style="width:auto"
         >
           <template
             v-slot:activator
             v-if="item.type == 1"
           >
             <div v-if="item.subMenus.length > 0">
-              <div class="link">{{ item.title }}</div>
+              <!-- <router-link :to="item.path"> -->
+              <div style="width:100px">
+                {{ item.title }}
+              </div>
+              <!-- </router-link> -->
             </div>
-            <v-list-item-content v-else>
+            <div v-else>
               <router-link :to="item.path">
-                <div class="link">{{ item.title }}</div>
+                <div style="width:100px">{{ item.title }}</div>
               </router-link>
-            </v-list-item-content>
+            </div>
           </template>
 
           <div
             v-for="(subItem, index1) in item.subMenus"
             :key="index1"
           >
-            <div
-              class="link sed"
-              @click="gotoSubPage(subItem.path, index, index1)"
-            >
-              {{ subItem.title }}
-            </div>
+            <router-link :to="subItem.path">
+              <div
+                class="link sed"
+                @click="gotoSubPage(subItem.path, index, index1)"
+              >
+                {{ subItem.title }}
+              </div>
+            </router-link>
           </div>
         </v-list-group>
       </at-menu>
@@ -118,6 +125,7 @@ export default {
     getAdminMenu() {
       //取得前一个 页面传过来的roleId
       //携带的roleId和token(全局拦截已经设置)向后端请求菜单
+      console.log('取得前一个 页面传过来的roleId' + this.roleId)
       this.$axios({
         method: 'get',
         url: 'http://localhost:8080/sysRole',
@@ -136,7 +144,6 @@ export default {
       })
     },
     logout() {
-      alert('logout')
       localStorage.removeItem('token')
       localStorage.removeItem('admin')
       localStorage.removeItem('menuList')
@@ -144,11 +151,12 @@ export default {
     },
     gotoSubPage(path, index, index1) {
       console.log(path, index, index1)
-      this.$route.push({
+      this.$router.push({
         path: path,
         query: {
           index: index,
-          index1: index1
+          index1: index1,
+          roleId: this.roleId
         }
       })
     }
@@ -178,9 +186,13 @@ export default {
   font-size: 26;
 }
 .ntt-menu {
-  margin-top: -30px;
-  margin-left: 230px;
+  margin-top: -29px;
+  margin-left: 263px;
   border-radius: 10px;
+  z-index: 1000;
+  router-link {
+    color: #cfd8dc;
+  }
   div {
     color: #cfd8dc;
   }
@@ -193,9 +205,15 @@ export default {
   position: relative;
 }
 .container {
-  position: relative;
-  background-color: #9e9e9e;
-  margin-top: 128px;
-  height: 490px;
+  position: absolute;
+  background-color: #385f73;
+  top: 130px;
+  // height: 490px;
+  height: 587px;
+  width: 392px;
+}
+// 这个属性不好找。。。
+element.style {
+  width: 60px;
 }
 </style>

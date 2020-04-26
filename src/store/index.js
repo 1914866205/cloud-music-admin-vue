@@ -7,6 +7,7 @@ const store = new Vuex.Store({
     //取出localStorge存放的token
     token: localStorage.getItem('token'),
     admin: JSON.parse(localStorage.getItem('admin')),
+    //按钮权限
     menuList: JSON.parse(localStorage.getItem('menuList'))
   },
 
