@@ -296,7 +296,7 @@ export default {
     width: 300px;
     height: 200px;
     line-height: 100px;
-    background-color: #fff;
+    background-color: #009688;
     border-radius: 10px;
     text-align: center;
     padding-top: 50px;

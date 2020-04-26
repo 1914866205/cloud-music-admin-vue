@@ -84,7 +84,7 @@ export default {
       },
       // options: ['5', '10', '15'],
       columns: [
-        { title: 'id', width: 120, name: 'name', align: 'center' },
+        { title: 'id', width: 122, name: 'name', align: 'center' },
         { title: '名称', name: 'calories', width: 240, align: 'left', sortable: true },
         { title: '歌曲数', name: 'protein', width: 100, align: 'right', sortable: true },
         { title: '创建时间', name: 'create_time', width: 160, align: 'right', sortable: true }
@@ -202,6 +202,17 @@ export default {
         this.typeChildSongList = this.types[0].child
         // console.log(this.typeChildSongList[0])
         // alert(this.typeChildSongList[0].song_list_name)
+      })
+    },
+    gotoSubPage(path, index, index1) {
+      console.log(path, index, index1)
+      this.$router.push({
+        path: path,
+        query: {
+          index: index,
+          index1: index1,
+          roleId: this.roleId
+        }
       })
     }
   }
