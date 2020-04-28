@@ -5,7 +5,4 @@
 </template>
 
 <style lang="scss">
-.gutter {
-  margin: 5px;
-}
 </style>

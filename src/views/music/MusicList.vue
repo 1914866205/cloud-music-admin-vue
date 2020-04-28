@@ -62,7 +62,7 @@
               circle
               :total="totalPage"
               :current.sync="currentPage"
-              style="margin-left:-99px;width:300px;margin-top:-20px"
+              style="margin-left:-99px;width:300px;margin-top:20px"
             >
             </mu-pagination>
           </mu-flex>
@@ -102,15 +102,20 @@ export default {
       keywords: '',
       start: 0,
       end: 8,
-      roleId: ''
+      roleId: '',
+      userIp: '180.104.219.202'
     }
   },
   created() {
     if (this.$route.query.roleId != null) {
       this.roleId = this.$route.query.roleId
+      this.userIp = this.$route.query.userIp
     } else {
       this.$route.query.roleId = this.roleId
+      this.userIp = this.$route.query.userIp
     }
+    alert(this.userIp)
+
     // for (let i = 0; i < this.$store.state.menuList.length; i++) {
     //   //查看当前按钮列表是否有二级按钮
     //   let menu = this.$store.state.menuList[i].subMenus
@@ -150,6 +155,7 @@ export default {
   methods: {
     //获取歌单
     getSongList() {
+      alert('传输' + this.userIp)
       this.axios({
         methods: 'get',
         url: 'http://localhost:8080/songList/page',
@@ -159,7 +165,8 @@ export default {
           roleId: this.roleId
         },
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded',
+          userIp: this.userIp
         }
       }).then((res) => {
         this.songList = res.data
@@ -192,7 +199,8 @@ export default {
           roleId: this.roleId
         },
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded',
+          userIp: this.userIp
         }
       }).then((res) => {
         //获取各种类型及属于该类型的歌单数据
@@ -211,7 +219,8 @@ export default {
         query: {
           index: index,
           index1: index1,
-          roleId: this.roleId
+          roleId: this.roleId,
+          userIp: this.userIp
         }
       })
     }
@@ -227,11 +236,10 @@ export default {
 }
 .music-list {
   position: absolute;
-  height: 465px;
-  // width: 330px;
-  width: 460px;
-  left: 5px;
-  top: 5px;
+  height: 600px;
+  width: auto;
+  left: 20%;
+  top: 40px;
   z-index: 0;
 }
 .select {

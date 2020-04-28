@@ -41,8 +41,9 @@ export default {
 <style scoped lang="scss">
 .das {
   position: absolute;
-  margin-left: 1px;
-  top: 8px;
-  width: 225px;
+  width: 50%;
+  height: 50%;
+  top: 5%;
+  left: 20%;
 }
 </style>

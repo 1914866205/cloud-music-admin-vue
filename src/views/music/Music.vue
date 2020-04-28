@@ -13,10 +13,7 @@
         aria-placeholder="search"
         style="width:200px;margin-left:20px"
       ></mu-text-field>
-      <mu-button
-        class="select"
-        @click="search()"
-      >搜索</mu-button>
+
       <mu-button
         v-for="(item, index) in buttonMenu"
         :key="index"
@@ -25,6 +22,10 @@
       >
         {{ item.title }}
       </mu-button>
+      <mu-button
+        class="select"
+        @click="deleteBySongId()"
+      >删除</mu-button>
       <!-- 歌曲表 -->
       <div>
         <div>
@@ -53,7 +54,7 @@
               circle
               :total="totalPage"
               :current.sync="currentPage"
-              style="margin-left:-99px;width:300px;margin-top:-20px"
+              style="margin-left:-99px;width:500px;margin-top:10px"
             >
             </mu-pagination>
           </mu-flex>
@@ -75,38 +76,41 @@ export default {
       },
       // options: ['5', '10', '15'],
       columns: [
-        { title: 'id', width: 122, name: 'name', align: 'center' },
-        { title: '歌名', name: 'calories', width: 240, align: 'left', sortable: true },
-        { title: '歌手', name: 'protein', width: 100, align: 'left', sortable: true },
-        { title: '时长', name: 'duration', width: 240, align: 'left', sortable: true },
-        { title: '评论', name: 'commentCount', width: 240, align: 'left', sortable: true },
-        { title: '喜欢', name: 'likeCount', width: 240, align: 'left', sortable: true },
-        { title: '收藏', name: 'playCount', width: 240, align: 'left', sortable: true },
-        { title: '删除', name: 'deleteFlag', width: 240, align: 'left', sortable: true },
-        { title: '更新时间', name: 'update_time', width: 240, align: 'left', sortable: true },
-        { title: '创建时间', name: 'create_time', width: 160, align: 'right', sortable: true }
+        { title: 'id', width: 120, name: 'name', align: 'center' },
+        { title: '歌名', name: 'calories', width: 120, align: 'left', sortable: true },
+        { title: '歌手', name: 'protein', width: 120, align: 'left', sortable: true },
+        { title: '时长', name: 'duration', width: 120, align: 'left', sortable: true },
+        { title: '评论', name: 'commentCount', width: 120, align: 'left', sortable: true },
+        { title: '喜欢', name: 'likeCount', width: 60, align: 'left', sortable: true },
+        { title: '收藏', name: 'playCount', width: 60, align: 'left', sortable: true },
+        { title: '删除', name: 'deleteFlag', width: 60, align: 'left', sortable: true },
+        { title: '更新时间', name: 'update_time', width: 120, align: 'left', sortable: true },
+        { title: '创建时间', name: 'create_time', width: 120, align: 'right', sortable: true }
       ],
       song: [],
       buttonMenu: [],
       currentPage: 1,
       //页数
       totalPage: 1000,
-      size: 7,
+      size: 10,
       page: 1,
       active: 0,
       types: [],
       typeChildSong: [],
       keywords: '',
       start: 0,
-      end: 8,
-      roleId: ''
+      end: 10,
+      roleId: '',
+      userIp: ''
     }
   },
   created() {
     if (this.$route.query.roleId != null) {
       this.roleId = this.$route.query.roleId
+      this.userIp = this.$route.query.userIp
     } else {
       this.$route.query.roleId = this.roleId
+      this.userIp = this.$route.query.userIp
     }
     this.getSong()
   },
@@ -143,7 +147,8 @@ export default {
           roleId: this.roleId
         },
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded',
+          userIp: this.userIp
         }
       }).then((res) => {
         this.song = res.data
@@ -173,7 +178,8 @@ export default {
         query: {
           index: index,
           index1: index1,
-          roleId: this.roleId
+          roleId: this.roleId,
+          userIp: this.userIp
         }
       })
     },
@@ -184,7 +190,8 @@ export default {
         url: 'http://localhost:8080/song/deleteById',
         params: {
           songId: this.keywords,
-          roleId: this.roleId
+          roleId: this.roleId,
+          userIp: this.userIp
         },
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -197,7 +204,7 @@ export default {
     },
     Operation(item) {
       if (item.title === '导出') {
-        this.deleteSongById()
+        // this.()
       }
     }
   }
@@ -212,11 +219,10 @@ export default {
 }
 .music-list {
   position: absolute;
-  height: 465px;
-  // width: 330px;
-  width: 460px;
-  left: 5px;
-  top: 5px;
+  height: auto;
+  width: 1200px;
+  left: 20%;
+  top: 40px;
   z-index: 0;
 }
 .select {

@@ -28,67 +28,63 @@
         >
           <v-card-text>退出</v-card-text>
         </v-btn>
-        <v-btn
+        <!-- <v-btn
           icon
           @click="show = !show"
           style="position:absolute;top:600px;right:20px"
         >
           <v-card-text>{{ this.show ? '隐藏' : '显示' }}</v-card-text>
-        </v-btn>
+        </v-btn> -->
       </v-app-bar>
     </v-card>
-
     <div class="container">
-      <div
-        class="row"
-        style="margin-bottom: 24px;"
-      ></div>
-      <at-menu
-        theme="dark"
-        active-name="0"
-        class="ntt-menu"
-        style="position:absolute;width: 100px;top:100px;right:20px"
-        v-show="show"
-      >
-        <v-list-group
-          v-for="(item, index) in menuList"
-          :key="index"
-          style="width:auto"
+      <div class="menu-bor">
+        <at-menu
+          theme="dark"
+          active-name="0"
+          class="ntt-menu"
         >
-          <template
-            v-slot:activator
-            v-if="item.type == 1"
+          <!-- v-show="show" -->
+          <!-- style="position:absolute;width: 100px;top:100px;right:20px" -->
+          <v-list-group
+            v-for="(item, index) in menuList"
+            :key="index"
+            style="width:auto"
           >
-            <div v-if="item.subMenus.length > 0">
-              <!-- <router-link :to="item.path"> -->
-              <div style="width:100px">
-                {{ item.title }}
+            <template
+              v-slot:activator
+              v-if="item.type == 1"
+            >
+              <div v-if="item.subMenus.length > 0">
+                <!-- <router-link :to="item.path"> -->
+                <div style="width:200px">
+                  {{ item.title }}
+                </div>
+                <!-- </router-link> -->
               </div>
-              <!-- </router-link> -->
-            </div>
-            <div v-else>
-              <router-link :to="item.path">
-                <div style="width:100px">{{ item.title }}</div>
+              <div v-else>
+                <router-link :to="item.path">
+                  <div style="width:200px">{{ item.title }}</div>
+                </router-link>
+              </div>
+            </template>
+
+            <div
+              v-for="(subItem, index1) in item.subMenus"
+              :key="index1"
+            >
+              <router-link :to="subItem.path">
+                <div
+                  class="link sed"
+                  @click="gotoSubPage(subItem.path, index, index1)"
+                >
+                  {{ subItem.title }}
+                </div>
               </router-link>
             </div>
-          </template>
-
-          <div
-            v-for="(subItem, index1) in item.subMenus"
-            :key="index1"
-          >
-            <router-link :to="subItem.path">
-              <div
-                class="link sed"
-                @click="gotoSubPage(subItem.path, index, index1)"
-              >
-                {{ subItem.title }}
-              </div>
-            </router-link>
-          </div>
-        </v-list-group>
-      </at-menu>
-
+          </v-list-group>
+        </at-menu>
+      </div>
       <router-view />
     </div>
   </div>
@@ -108,16 +104,20 @@ export default {
       expandOnHover: false,
       background: true,
       roleId: '',
-      show: true
+      // show: true,
+      userIp: ''
     }
   },
   components: {},
   created() {
     if (this.$route.query.roleId != null) {
       this.roleId = this.$route.query.roleId
+      this.userIp = this.$route.query.userIp
     } else {
       this.$route.query.roleId = this.roleId
+      this.userIp = this.$route.query.userIp
     }
+    alert(this.userIp)
     this.getAdminMenu()
   },
   mounted() {},
@@ -134,7 +134,8 @@ export default {
         },
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: localStorage.getItem('token')
+          Authorization: localStorage.getItem('token'),
+          userIp: this.userIp
         }
       }).then((res) => {
         localStorage.setItem('menuList', JSON.stringify(res.data.menus))
@@ -156,7 +157,8 @@ export default {
         query: {
           index: index,
           index1: index1,
-          roleId: this.roleId
+          roleId: this.roleId,
+          userIp: this.userIp
         }
       })
     }
@@ -172,12 +174,10 @@ export default {
 <style scoped lang="scss">
 * {
   margin: 0;
-  border: 0;
+  padding: 0;
 }
 .box {
-  margin-top: 80px;
   float: left;
-  margin-right: 180px;
 }
 .cloud-title {
   margin: 40px;
@@ -185,11 +185,16 @@ export default {
   font-weight: 900;
   font-size: 26;
 }
+.menu-bor {
+  width: 10%;
+}
 .ntt-menu {
-  margin-top: -29px;
-  margin-left: 263px;
+  position: absolute;
   border-radius: 10px;
   z-index: 1000;
+  font-size: 28px;
+  top: 40px;
+  width: 20%;
   router-link {
     color: #cfd8dc;
   }
@@ -197,20 +202,22 @@ export default {
     color: #cfd8dc;
   }
   .sed {
-    margin-left: 30px;
-    font-size: 12px;
+    margin-left: 60px;
+    font-size: 24px;
   }
 }
 .header {
-  position: relative;
+  position: absolute;
+  height: auto;
+  width: 100%;
 }
 .container {
-  position: absolute;
+  position: relative;
   background-color: #385f73;
-  top: 130px;
-  // height: 490px;
-  height: 587px;
-  width: 392px;
+  top: 129px;
+  width: 100%;
+  max-width: 3000px;
+  height: 832px;
 }
 // 这个属性不好找。。。
 element.style {

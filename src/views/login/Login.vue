@@ -207,7 +207,8 @@ export default {
             this.$router.push({
               path: '/',
               query: {
-                roleId: roleId
+                roleId: roleId,
+                userIp: this.userIp
               }
             })
           }
@@ -215,11 +216,11 @@ export default {
       })
     },
     gotoIndex(roleId) {
-      // alert('权限：' + roleId)
       this.$router.push({
         path: '/',
         query: {
-          roleId: roleId
+          roleId: roleId,
+          userIp: this.userIp
         }
       })
       // alert(roleId)
