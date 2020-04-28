@@ -102,19 +102,21 @@ export default {
       keywords: '',
       start: 0,
       end: 8,
-      roleId: '',
-      userIp: '180.104.219.202'
+      roleId: this.$store.state.roleId,
+      userIp: this.$store.state.userIp
     }
   },
   created() {
-    if (this.$route.query.roleId != null) {
-      this.roleId = this.$route.query.roleId
-      this.userIp = this.$route.query.userIp
-    } else {
-      this.$route.query.roleId = this.roleId
-      this.userIp = this.$route.query.userIp
-    }
-    alert(this.userIp)
+    // alert('MusicList的' + this.userIp)
+    // alert('MusicList的' + this.roleId)
+    // if (this.$route.query.roleId != null) {
+    //   this.roleId = this.$route.query.roleId
+    //   this.userIp = this.$route.query.userIp
+    // } else {
+    //   this.$route.query.roleId = this.roleId
+    //   this.userIp = this.$route.query.userIp
+    // }
+    // alert(this.userIp)
 
     // for (let i = 0; i < this.$store.state.menuList.length; i++) {
     //   //查看当前按钮列表是否有二级按钮
@@ -155,13 +157,15 @@ export default {
   methods: {
     //获取歌单
     getSongList() {
-      alert('传输' + this.userIp)
+      alert('传输' + this.roleId)
       this.axios({
         methods: 'get',
-        url: 'http://localhost:8080/songList/page',
+        // url: 'http://localhost:8080/songList/page',
+        url: this.GLOBAL.baseUrl + '/songList/page',
         params: {
           currentPage: this.page,
           size: 1000,
+          // roleId: this.roleId
           roleId: this.roleId
         },
         headers: {
@@ -194,7 +198,8 @@ export default {
     getSongListType() {
       this.axios({
         methods: 'get',
-        url: 'http://localhost:8080/songList/type',
+        // url: 'http://localhost:8080/songList/type',
+        url: this.GLOBAL.baseUrl + '/songList/type',
         params: {
           roleId: this.roleId
         },
@@ -219,7 +224,7 @@ export default {
         query: {
           index: index,
           index1: index1,
-          roleId: this.roleId,
+          roleId: this.userId,
           userIp: this.userIp
         }
       })

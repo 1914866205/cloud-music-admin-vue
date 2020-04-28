@@ -9,6 +9,7 @@ import AtComponents from 'at-ui'
 import 'at-ui-style' // 引入组件样式
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import global_ from '@/util/Global'
 Vue.prototype.$axios = axios
 Vue.use(VueAxios, axios)
 
@@ -17,6 +18,7 @@ Vue.use(VueAxios, axios)
 Vue.use(AtComponents)
 Vue.use(MuseUI)
 Vue.config.productionTip = false
+Vue.prototype.GLOBAL = global_
 
 // 钩子函数,全局钩子
 router.beforeEach((to, from, next) => {
@@ -98,7 +100,8 @@ worker.onmessage = function() {
   //获取在新线程中执行的js文件发送的数据 用event.data接收数据
   this.$axios({
     method: 'post',
-    url: 'http://localhost:8080/tokenFlush',
+    // url: 'http://localhost:8080/tokenFlush',
+    url: this.GLOBAL.baseUrl + '/tokenFlush',
     data: {
       token: this.$store.token
     }

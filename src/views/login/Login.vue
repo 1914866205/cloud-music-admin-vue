@@ -140,6 +140,10 @@ export default {
       url: 'http://pv.sohu.com/cityjson?ie=utf-8'
     }).then((res) => {
       this.userIp = res.data.split('"')[3]
+      //将userIp存入全局
+      localStorage.setItem('userIp', this.userIp)
+      this.$store.commit('setUserIp', this.userIp)
+
       // alert(this.userIp)
     })
   },
@@ -153,7 +157,8 @@ export default {
       if (this.userIp.length > 0) {
         this.$axios({
           method: 'post',
-          url: 'http://localhost:8080/captcha?userIp=' + this.userIp,
+          // url: 'http://localhost:8080/captcha?userIp=' + this.userIp,
+          url: this.GLOBAL.baseUrl + '/captcha?userIp=' + this.userIp,
           responseType: 'blob'
         }).then((res) => {
           let img = this.$refs.verifyImg
@@ -172,7 +177,8 @@ export default {
     submit() {
       this.$axios({
         method: 'post',
-        url: 'http://localhost:8080/sysAdmin/login',
+        // url: 'http://localhost:8080/sysAdmin/login',
+        url: this.GLOBAL.baseUrl + '/sysAdmin/login',
         data: {
           username: this.validateForm.username,
           password: this.validateForm.password,
@@ -207,8 +213,8 @@ export default {
             this.$router.push({
               path: '/',
               query: {
-                roleId: roleId,
-                userIp: this.userIp
+                roleId: roleId
+                // userIp: this.userIp
               }
             })
           }
@@ -216,6 +222,12 @@ export default {
       })
     },
     gotoIndex(roleId) {
+      //将roleId存入全局
+      localStorage.setItem('roleId', roleId)
+      this.$store.commit('setRoleId', roleId)
+      // alert('ip地址' + this.$store.state.userIp)
+      // alert('权限' + this.$store.state.roleId)
+      // this.$router.push('/')
       this.$router.push({
         path: '/',
         query: {
@@ -223,6 +235,7 @@ export default {
           userIp: this.userIp
         }
       })
+
       // alert(roleId)
       // this.$router.push({
       //   name: '/',

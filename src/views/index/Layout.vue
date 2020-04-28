@@ -103,21 +103,23 @@ export default {
       miniVariant: false,
       expandOnHover: false,
       background: true,
-      roleId: '',
+      roleId: this.$store.state.roleId,
       // show: true,
-      userIp: ''
+      userIp: this.$store.state.userIp
     }
   },
   components: {},
   created() {
-    if (this.$route.query.roleId != null) {
-      this.roleId = this.$route.query.roleId
-      this.userIp = this.$route.query.userIp
-    } else {
-      this.$route.query.roleId = this.roleId
-      this.userIp = this.$route.query.userIp
-    }
-    alert(this.userIp)
+    // if (this.$route.query.roleId != null) {
+    //   this.roleId = this.$route.query.roleId
+    //   this.userIp = this.$route.query.userIp
+    // } else {
+    //   this.$route.query.roleId = this.roleId
+    //   this.userIp = this.$route.query.userIp
+    // }
+    // // alert(this.userIp)
+    // alert('Layout的' + this.userIp)
+    // alert('Layout的' + this.roleId)
     this.getAdminMenu()
   },
   mounted() {},
@@ -128,14 +130,15 @@ export default {
       console.log('取得前一个 页面传过来的roleId' + this.roleId)
       this.$axios({
         method: 'get',
-        url: 'http://localhost:8080/sysRole',
+        // url: 'http://localhost:8080/sysRole',
+        url: this.GLOBAL.baseUrl + '/sysRole',
         params: {
-          roleId: this.roleId
+          roleId: this.$store.state.roleId
         },
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           Authorization: localStorage.getItem('token'),
-          userIp: this.userIp
+          userIp: this.$store.state.userIp
         }
       }).then((res) => {
         localStorage.setItem('menuList', JSON.stringify(res.data.menus))

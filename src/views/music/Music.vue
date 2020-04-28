@@ -77,7 +77,7 @@ export default {
       // options: ['5', '10', '15'],
       columns: [
         { title: 'id', width: 120, name: 'name', align: 'center' },
-        { title: '歌名', name: 'calories', width: 120, align: 'left', sortable: true },
+        { title: '歌名', name: 'calories', width: 150, align: 'left', sortable: true },
         { title: '歌手', name: 'protein', width: 120, align: 'left', sortable: true },
         { title: '时长', name: 'duration', width: 120, align: 'left', sortable: true },
         { title: '评论', name: 'commentCount', width: 120, align: 'left', sortable: true },
@@ -100,18 +100,20 @@ export default {
       keywords: '',
       start: 0,
       end: 10,
-      roleId: '',
-      userIp: ''
+      roleId: this.$store.state.roleId,
+      userIp: this.$store.state.userIp
     }
   },
   created() {
-    if (this.$route.query.roleId != null) {
-      this.roleId = this.$route.query.roleId
-      this.userIp = this.$route.query.userIp
-    } else {
-      this.$route.query.roleId = this.roleId
-      this.userIp = this.$route.query.userIp
-    }
+    // if (this.$route.query.roleId != null) {
+    //   this.roleId = this.$route.query.roleId
+    //   this.userIp = this.$route.query.userIp
+    // } else {
+    //   this.$route.query.roleId = this.roleId
+    //   this.userIp = this.$route.query.userIp
+    // }
+    // alert('Music的' + this.userIp)
+    // alert('Music的' + this.roleId)
     this.getSong()
   },
   mounted() {},
@@ -140,7 +142,8 @@ export default {
     getSong() {
       this.axios({
         methods: 'get',
-        url: 'http://localhost:8080/song/page',
+        // url: 'http://localhost:8080/song/page',
+        url: this.GLOBAL.baseUrl + '/song/page',
         params: {
           currentPage: this.page,
           size: 1000,
@@ -173,6 +176,8 @@ export default {
     },
     gotoSubPage(path, index, index1) {
       console.log(path, index, index1)
+      alert(this.roleId)
+      alert(this.userIp)
       this.$router.push({
         path: path,
         query: {
@@ -187,7 +192,8 @@ export default {
       alert('删除歌曲ID:' + this.keywords)
       this.axios({
         methods: 'get',
-        url: 'http://localhost:8080/song/deleteById',
+        // url: 'http://localhost:8080/song/deleteById',
+        url: this.GLOBAL.baseUrl + '/song/deleteById',
         params: {
           songId: this.keywords,
           roleId: this.roleId,

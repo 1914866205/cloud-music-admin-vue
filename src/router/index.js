@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// vuetufy提供的定位功能，回到上一个路由的时候可以定位到之前的位置
+// import goTo from '../store/index.js'
 import Layout from '../views/index/Layout.vue'
 import Dashboard from '../views/index/Dashboard.vue'
+// import { getSupportInfo } from 'prettier'
 Vue.use(VueRouter)
 
 const routes = [
@@ -50,6 +53,15 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  // scrollBehavior: (to, from, savedPosition) => {
+  //   let scrollTo = 0
+  //   if (to.hash) {
+  //     scrollTo = to.hash
+  //   } else if (savedPosition) {
+  //     scrollTo = savedPosition.y
+  //   }
+  //   return getSupportInfo(scrollTo)
+  // },
   routes
 })
 

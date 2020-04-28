@@ -6,6 +6,8 @@ const store = new Vuex.Store({
   state: {
     //取出localStorge存放的token
     token: localStorage.getItem('token'),
+    roleId: localStorage.getItem('roleId'),
+    userIp: localStorage.getItem('userIp'),
     admin: JSON.parse(localStorage.getItem('admin')),
     //按钮权限
     menuList: JSON.parse(localStorage.getItem('menuList'))
@@ -24,6 +26,9 @@ const store = new Vuex.Store({
     },
     setRoleId(state, data) {
       state.roleId = data
+    },
+    setUserIp(state, data) {
+      state.userIp = data
     }
   },
   actions: {}
