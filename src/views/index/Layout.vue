@@ -51,6 +51,7 @@
             :key="index"
             style="width:auto"
           >
+
             <template
               v-slot:activator
               v-if="item.type == 1"
@@ -83,6 +84,12 @@
               </router-link>
             </div>
           </v-list-group>
+          <div
+            style="margin-left:19px;cursor:pointer"
+            @click="userInfo"
+          >
+            个人中心
+          </div>
         </at-menu>
       </div>
       <router-view />
@@ -164,6 +171,9 @@ export default {
           userIp: this.userIp
         }
       })
+    },
+    userInfo() {
+      this.$router.push('/user')
     }
   },
   computed: {

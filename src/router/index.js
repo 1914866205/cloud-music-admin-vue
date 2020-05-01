@@ -42,6 +42,11 @@ const routes = [
         path: '/menu',
         name: 'Menu',
         component: () => import('../views/permission/Menu.vue')
+      },
+      {
+        path: '/user',
+        name: 'User',
+        component: () => import('../views/other/User.vue')
       }
     ]
   },

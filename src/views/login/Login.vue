@@ -64,6 +64,10 @@
             @click="clear"
             style="background-color:#448AFF;color:white;left:40px"
           >重置</mu-button>
+          <mu-button
+            @click="login"
+            style="background-color:#448AFF;color:white;left:40px"
+          >一键登录</mu-button>
         </mu-form-item>
       </mu-form>
     </mu-container>
@@ -194,7 +198,8 @@ export default {
             id: res.data.admin.id,
             name: res.data.admin.name,
             roles: res.data.admin.roles,
-            avatar: res.data.admin.avatar
+            avatar: res.data.admin.avatar,
+            password: res.data.admin.password
           }
           // alert(admin)
           //存admin
@@ -253,6 +258,13 @@ export default {
     refresh() {
       //点击验证码图片，重新请求，刷新
       this.init()
+    },
+    login() {
+      alert('click')
+      const authorize_uri = 'https://github.com/login/oauth/authorize'
+      const client_id = 'a29c48c1e7c4f774c6c9'
+      const redirect_uri = 'http://localhost:8080/login/oauth2/code/github'
+      window.location.href = `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}`
     }
   },
   computed: {},
