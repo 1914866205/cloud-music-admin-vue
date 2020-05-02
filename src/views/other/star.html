@@ -1,0 +1,85 @@
+<template>
+  <div>
+    <form :model="formItem" ref="formItem" :label-width="80">
+      <label>选择星座</label>
+      <select style="width: 200px;" v-model="formItem.sendValue">
+        <option v-for="item in starTypeArr" :value="item.value" :key="item.value" name="sendValue">
+          {{item.label}}
+        </option>
+      </select>
+    </form>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'star',
+    data() {
+      return {
+        starType: '',
+        starTypeArr: [
+          {
+            value: 'aries',
+            label: '白羊座'
+          },
+          {
+            value: 'taurus',
+            label: '金牛座'
+          },
+          {
+            value: 'gemini',
+            label: '双子座'
+          },
+          {
+            value: 'cancer',
+            label: '钜蟹座'
+          },
+          {
+            value: 'leo',
+            label: '狮子座'
+          },
+          {
+            value: 'virgo',
+            label: '处女座'
+          },
+          {
+            value: 'libra',
+            label: '天平座'
+          },
+          {
+            value: 'scorpio',
+            label: '天蝎座'
+          },
+          {
+            value: 'sagittarius',
+            label: '射手座'
+          },
+          {
+            value: 'capricorn',
+            label: '摩羯座'
+          },
+          {
+            value: 'aquarius',
+            label: '水瓶'
+          },
+          {
+            value: 'pisces',
+            label: '双鱼座'
+          }
+        ]
+      }
+    },
+    components: {},
+    created() {},
+    mounted() {},
+    methods: {},
+    computed: {}
+  }
+</script>
+
+<style scoped lang="scss">
+  * {
+    margin: 0;
+    padding: 0;
+  }
+</style>

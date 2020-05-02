@@ -1,43 +1,38 @@
 <template>
-  <div class="das">
-    <v-card
-      color="#385F73"
-      dark
+  <div
+    id="app"
+    class="con"
+  >
+    <label class="lab">选择星座</label>
+    <select
+      v-model="starType"
+      class="sel"
     >
-      <v-card-title class="headline">选择星座 </v-card-title>
-
-      <v-card-subtitle> <select
-          v-model="starType"
-          class="sel"
-        >
-          <option
-            v-for="item in starTypeArr"
-            :key="item.value"
-          >
-            {{ item.label }}
-          </option>
-        </select></v-card-subtitle>
-
-      <v-card-actions
-        class="item"
-        style="background-color:red;width:200px;height:20px"
-        v-for="item in showList"
-        :key="item.type"
+      <option
+        v-for="item in starTypeArr"
+        :key="item.value"
       >
-        <label>
-          {{ item.type }}
-        </label>
-        <label>
-          {{ item.content }}
-        </label>
-      </v-card-actions>
-    </v-card>
+        {{ item.label }}
+      </option>
+    </select>
+    <div
+      class="item"
+      style="background-color:red;width:200px;height:20px"
+      v-for="item in showList"
+      :key="item.type"
+    >
+      <div>
+        {{ item.type }}
+      </div>
+      <div>
+        {{ item.content }}
+      </div>
+    </div>
   </div>
 </template>
-
 <script>
 export default {
-  name: 'Dashboard',
+  name: 'Star',
   data() {
     return {
       starType: '',
@@ -113,13 +108,8 @@ export default {
 }
 </script>
 
-
 <style scoped lang="scss">
-.das {
-  position: absolute;
-  width: 50%;
-  height: 50%;
-  top: 5%;
-  left: 20%;
+* {
+  background-color: rgb(33, 150, 243);
 }
 </style>

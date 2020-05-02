@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="shortcut icon"
+      href="https://niit-soft.oss-cn-hangzhou.aliyuncs.com/icon/icons8_storage.ico"
+      type="image/x-icon"
+    />
+    <title>星座运势</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <div>
+        <label>选择星座</label>
+
+        <select v-model="starType">
+          <option v-for="item in starTypeArr" v-bind:value="item.value">
+            {{item.label}}
+          </option>
+        </select>
+        <div v-for="item in showList">
+          {{item.type}} {{item.content}}
+        </div>
+      </div>
+    </div>
+    <script>
+      var vm = new Vue({
+        el: '#app',
+        data: {
+          starType: '',
+          starTypeArr: [
+            {
+              value: 'aries',
+              label: '白羊座'
+            },
+            {
+              value: 'taurus',
+              label: '金牛座'
+            },
+            {
+              value: 'gemini',
+              label: '双子座'
+            },
+            {
+              value: 'cancer',
+              label: '钜蟹座'
+            },
+            {
+              value: 'leo',
+              label: '狮子座'
+            },
+            {
+              value: 'virgo',
+              label: '处女座'
+            },
+            {
+              value: 'libra',
+              label: '天平座'
+            },
+            {
+              value: 'scorpio',
+              label: '天蝎座'
+            },
+            {
+              value: 'sagittarius',
+              label: '射手座'
+            },
+            {
+              value: 'capricorn',
+              label: '摩羯座'
+            },
+            {
+              value: 'aquarius',
+              label: '水瓶'
+            },
+            {
+              value: 'pisces',
+              label: '双鱼座'
+            }
+          ],
+          showList: []
+        },
+        methods: {},
+        components: {},
+        created() {},
+        mounted() {},
+        methods: {},
+        watch: {
+          starType: function() {
+            alert(this.starType)
+            this.$axios({
+              method: 'get',
+              url:
+                'http://api.tianapi.com/txapi/star/index?key=cd3ffda4506c231ff8c9bde908dc7d81&astro' +
+                this.starType
+            }).then((res) => {
+              showList = res.data.newList
+            })
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
