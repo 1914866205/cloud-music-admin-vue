@@ -201,6 +201,8 @@ export default {
             avatar: res.data.admin.avatar,
             password: res.data.admin.password
           }
+          // alert(res.data.admin.id)
+
           // alert(admin)
           //存admin
           localStorage.setItem('admin', JSON.stringify(admin))

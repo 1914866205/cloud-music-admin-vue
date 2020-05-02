@@ -20,64 +20,64 @@ Vue.use(MuseUI)
 Vue.config.productionTip = false
 Vue.prototype.GLOBAL = global_
 
-// // 钩子函数,全局钩子
-// router.beforeEach((to, from, next) => {
-//   let token = localStorage.getItem('token')
-//   let isLogin
-//   // if (!token) {
-//   //   isLogin = false
-//   // } else {
-//   //   isLogin = true
-//   // }
-//   if (token) {
-//     isLogin = true
-//   } else {
-//     isLogin = false
-//   }
+// 钩子函数,全局钩子
+router.beforeEach((to, from, next) => {
+  let token = localStorage.getItem('token')
+  let isLogin
+  // if (!token) {
+  //   isLogin = false
+  // } else {
+  //   isLogin = true
+  // }
+  if (token) {
+    isLogin = true
+  } else {
+    isLogin = false
+  }
 
-//   // //true:有token
-//   // //false:无token
-//   // if (!isLogin) {
-//   //   //如果不是去登录页
-//   //   if (to.path !== '/login') {
-//   //     //就跳到登录页
-//   //     return next({ path: '/login' })
-//   //   } else {
-//   //     //如果是去登录页
-//   //     //就放行
-//   //     next()
-//   //   }
-//   // } else {
-//   //   //如果是去登录页
-//   //   if (to.path === '/login') {
-//   //     //就放行
-//   //     return next({ path: '/' })
-//   //   }
-//   //   next()
-//   // }
+  // //true:有token
+  // //false:无token
+  // if (!isLogin) {
+  //   //如果不是去登录页
+  //   if (to.path !== '/login') {
+  //     //就跳到登录页
+  //     return next({ path: '/login' })
+  //   } else {
+  //     //如果是去登录页
+  //     //就放行
+  //     next()
+  //   }
+  // } else {
+  //   //如果是去登录页
+  //   if (to.path === '/login') {
+  //     //就放行
+  //     return next({ path: '/' })
+  //   }
+  //   next()
+  // }
 
-//   //true:有token
-//   //false:无token
-//   if (isLogin) {
-//     //如果是去登录页
-//     if (to.path === '/login') {
-//       //就放行
-//       return next({ path: '/' })
-//     }
-//     //如果不是去登录页，也放行
-//     next()
-//   } else {
-//     //如果不是去登录页
-//     if (to.path !== '/login') {
-//       //就跳到登录页
-//       return next({ path: '/login' })
-//     } else {
-//       //如果是去登录页
-//       //就放行
-//       next()
-//     }
-//   }
-// })
+  //true:有token
+  //false:无token
+  if (isLogin) {
+    //如果是去登录页
+    if (to.path === '/login') {
+      //就放行
+      return next({ path: '/' })
+    }
+    //如果不是去登录页，也放行
+    next()
+  } else {
+    //如果不是去登录页
+    if (to.path !== '/login') {
+      //就跳到登录页
+      return next({ path: '/login' })
+    } else {
+      //如果是去登录页
+      //就放行
+      next()
+    }
+  }
+})
 
 //全局请求拦截
 axios.interceptors.request.use((config) => {

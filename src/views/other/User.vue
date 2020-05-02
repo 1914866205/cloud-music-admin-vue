@@ -9,6 +9,7 @@
       <img
         :src="userInfo.avatar"
         class="avatar"
+        @click="selectavatar()"
       />
       <div class="info">
         <mu-form
@@ -51,19 +52,20 @@
           placeholder=""
           :rules="passwordRules"
         > -->
-      </div>
-      <mu-button
-        style="margin-bottom:20px;margin-left:150px"
-        @click="change"
-      >
-        修改
-      </mu-button>
 
-      <v-card-title style="position:absolute;width:300px;margin-left:700px;margin-top:-350px;">选择星座查看今日运势</v-card-title>
+        <mu-button
+          style="margin-bottom:20px"
+          @click="change"
+        >
+          修改
+        </mu-button>
+      </div>
+
+      <v-card-title style="position:absolute;width:300px;margin-left:700px;margin-top:-300px;">选择星座查看今日运势</v-card-title>
 
       <at-select
         v-model="starType"
-        style="position:absolute;width:100px;margin-left:250px;margin-top:-10px"
+        style="position:absolute;width:100px;margin-left:258px;margin-top:15px"
       >
         <at-option
           v-for="item in starTypeArr"
@@ -73,8 +75,7 @@
           {{ item.label }}
         </at-option>
       </at-select>
-      <div style="position:relative;width:350px;margin-left:720px;margin-top:-300px">
-
+      <div style="position:relative;width:350px;margin-left:720px;margin-top:-240px">
         <div
           style="margin-top:20px"
           v-for="item in showList"
@@ -89,6 +90,22 @@
         </div>
       </div>
     </v-card>
+    <!-- 隐藏的输入框 -->
+    <!-- <input
+      type="file"
+      class="upload-input"
+      v-show="false"
+      ref="upload"
+      @change="handleFile()"
+    /> -->
+
+    <!-- 设置可以被引用  引用名为file  不可见 -->
+    <input
+      ref="file"
+      v-show="false"
+      type="file"
+      @change="uploadAvatar($event)"
+    />
   </div>
 </template>
 
@@ -126,7 +143,7 @@ export default {
         },
         {
           value: 'cancer',
-          label: '钜蟹座'
+          label: '巨蟹座'
         },
         {
           value: 'leo',
@@ -161,7 +178,11 @@ export default {
           label: '双鱼座'
         }
       ],
-      showList: []
+      showList: [],
+      client: '',
+      file: '',
+      id: this.$store.state.admin.id,
+      roles: this.$store.state.admin.roles
     }
   },
   created() {
@@ -189,6 +210,8 @@ export default {
   },
   methods: {
     change() {
+      alert('111id:' + this.$store.state.admin.id)
+      alert('222id:' + this.id)
       alert(
         this.userInfo.name +
           '*******' +
@@ -196,7 +219,7 @@ export default {
           '*******' +
           this.userInfo.avatar +
           '*******' +
-          this.$store.state.admin.id +
+          this.id +
           '*******' +
           this.$store.state.roleId +
           '*******' +
@@ -215,11 +238,11 @@ export default {
           name: this.userInfo.name,
           password: this.userInfo.password,
           avatar: this.userInfo.avatar,
-          id: this.$store.state.admin.id
+          id: this.id
         }
       }).then(() => {
         let admin = {
-          id: this.$store.state.admin.id,
+          id: this.id,
           name: this.userInfo.name,
           roles: this.$store.state.admin.roles,
           avatar: this.userInfo.avatar,
@@ -229,6 +252,14 @@ export default {
         //存admin
         localStorage.setItem('admin', JSON.stringify(admin))
         this.$store.commit('setAdmin', JSON.stringify(admin))
+        // var timer = setInterval(function() {
+        //   this.shortTile--
+        //   if (this.showTime == 0) {
+        //     this.getMessage()
+        //   }
+        // }, 1000)
+        // this.getMessage()
+        alert('修改成功')
       })
 
       // this.$axios({
@@ -251,6 +282,89 @@ export default {
       //   this.userInfo = res.data
       //   alert(this.userInfo.username)
       // })
+    },
+
+    // //上传头像方案1*********************************************
+    // selectavatar() {
+    //   let uploadbtn = this.$refs.upload
+    //   uploadbtn.click()
+    // },
+    // handleFile() {
+    //   this.getClient()
+    //   //获取文件信息
+    //   this.file = this.$refs.upload.files[0]
+    //   var _this = this
+    //   async function put() {
+    //     try {
+    //       let result = await _this.client.put(_this.$refs.upload.files[0].name, _this.file)
+    //       //获取返回的url
+    //       _this.avatar = result.url
+    //       this.userInfo.avatar = result.url
+    //       // _this.changeMessage()
+    //       _this.change()
+    //     } catch (e) {
+    //       console.log(e)
+    //     }
+    //   }
+    //   put()
+    // },
+    // getClient() {
+    //   let OSS = require('ali-oss')
+    //   this.client = new OSS({
+    //     region: 'oss-cn-beijing',
+    //     //云账号的AccessKey所有的API访问权限，
+    //     //建议遵循阿里云安全最佳实践没部署在服务器端使用RAM子账号
+    //     accessKeyId: 'LTAI4GD8r7BPa4ik89fSdFws',
+    //     accessKeySecret: 'H5uLKRHHYnndxuHctQjPPBJj5vRWSH',
+    //     bucket: 'nttbucket'
+    //   })
+    // },
+    //上传头像方案1*********************************************
+    //上传头像方案2*********************************************
+    selectavatar() {
+      this.$refs.file.click()
+    },
+    uploadAvatar(event) {
+      const OSS = require('ali-oss')
+      let client = new OSS({
+        region: 'oss-cn-beijing',
+        //云账号的AccessKey所有的API访问权限，
+        //建议遵循阿里云安全最佳实践没部署在服务器端使用RAM子账号
+        accessKeyId: 'LTAI4GD8r7BPa4ik89fSdFws',
+        accessKeySecret: 'H5uLKRHHYnndxuHctQjPPBJj5vRWSH',
+        bucket: 'nttbucket'
+      })
+      let timestamp = Date.parse(new Date())
+      let imgUrl = 'img/' + timestamp
+      alert(imgUrl)
+      var file = event.target.files[0] //获取文件流
+      // var url = ''
+      //因为在内部方法中，this无效
+      var _this = this
+      // alert(file)
+      // alert('****')
+      client.multipartUpload(imgUrl, file).then(function(result) {
+        // alert('链接地址111result.res.requestUrls[0]：' + result.res.requestUrls[0])
+        let img = result.res.requestUrls[0].split('?')[0]
+        alert('错误源' + img)
+        _this.userInfo.avatar = img
+        //地址改变，但没有远程存储，所以找不到文件
+        //要先存储
+        alert('错误源' + _this.userInfo.avatar)
+        let admin = {
+          id: _this.id,
+          name: _this.userInfo.name,
+          roles: _this.roles,
+          avatar: _this.userInfo.avatar,
+          password: _this.userInfo.password
+        }
+        // 存admin
+        console.log(admin)
+        console.log(admin.avatar)
+        localStorage.setItem('admin', JSON.stringify(admin))
+        _this.$store.commit('setAdmin', JSON.stringify(admin))
+        console.log(_this.$store.state.admin)
+      })
     }
   },
   watch: {
