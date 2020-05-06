@@ -65,9 +65,9 @@
             style="background-color:#448AFF;color:white;left:40px"
           >重置</mu-button>
           <mu-button
-            @click="login"
-            style="background-color:#448AFF;color:white;left:40px"
-          >一键登录</mu-button>
+            @click="githubLogin"
+            style="background-color:#448AFF;color:white"
+          >Github一键注册</mu-button>
         </mu-form-item>
       </mu-form>
     </mu-container>
@@ -261,12 +261,12 @@ export default {
       //点击验证码图片，重新请求，刷新
       this.init()
     },
-    login() {
-      alert('click')
+    githubLogin() {
       const authorize_uri = 'https://github.com/login/oauth/authorize'
       const client_id = 'a29c48c1e7c4f774c6c9'
-      const redirect_uri = 'http://localhost:8080/login/oauth2/code/github'
+      const redirect_uri = 'http://localhost:8080/oauth2/code/github'
       window.location.href = `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}`
+      alert('注册成功,初始密码123456')
     }
   },
   computed: {},

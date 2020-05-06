@@ -10,6 +10,12 @@ import 'at-ui-style' // 引入组件样式
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import global_ from '@/util/Global'
+//引入localforage
+// npm intall --save localforage vlf
+// import Vlf from 'vlf'
+// import localforage from 'localforage'
+// Vue.use(Vlf, localforage)
+
 Vue.prototype.$axios = axios
 Vue.use(VueAxios, axios)
 
@@ -24,38 +30,11 @@ Vue.prototype.GLOBAL = global_
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem('token')
   let isLogin
-  // if (!token) {
-  //   isLogin = false
-  // } else {
-  //   isLogin = true
-  // }
   if (token) {
     isLogin = true
   } else {
     isLogin = false
   }
-
-  // //true:有token
-  // //false:无token
-  // if (!isLogin) {
-  //   //如果不是去登录页
-  //   if (to.path !== '/login') {
-  //     //就跳到登录页
-  //     return next({ path: '/login' })
-  //   } else {
-  //     //如果是去登录页
-  //     //就放行
-  //     next()
-  //   }
-  // } else {
-  //   //如果是去登录页
-  //   if (to.path === '/login') {
-  //     //就放行
-  //     return next({ path: '/' })
-  //   }
-  //   next()
-  // }
-
   //true:有token
   //false:无token
   if (isLogin) {
