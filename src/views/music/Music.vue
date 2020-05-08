@@ -24,7 +24,7 @@
       </mu-button>
       <mu-button
         class="select"
-        @click="deleteBySongId()"
+        @click="deleteSongById()"
       >删除</mu-button>
       <!-- 歌曲表 -->
       <div>
@@ -208,9 +208,27 @@ export default {
         }
       })
     },
+    exportSong() {
+      alert('导出歌曲')
+      this.axios({
+        methods: 'get',
+        url: this.GLOBAL.baseUrl + '/song/export',
+        params: {
+          roleId: this.roleId,
+          userIp: this.userIp
+        },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then((res) => {
+        if (res.data !== null) {
+          alert('导出成功')
+        }
+      })
+    },
     Operation(item) {
       if (item.title === '导出') {
-        // this.()
+        this.exportSong()
       }
     }
   }

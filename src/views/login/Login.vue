@@ -68,6 +68,10 @@
             @click="githubLogin"
             style="background-color:#448AFF;color:white"
           >Github一键注册</mu-button>
+          <mu-button
+            @click="githubLoginSecond"
+            style="background-color:#448AFF;color:white"
+          >Github一键登录</mu-button>
         </mu-form-item>
       </mu-form>
     </mu-container>
@@ -134,11 +138,14 @@ export default {
       },
       menuList: [],
       openSimple: false,
-      show: false
+      show: false,
+      code: ''
     }
   },
   components: {},
   created() {
+    let url = document.URL
+    this.code = url.split('=')[1]
     this.$axios({
       method: 'get',
       url: 'http://pv.sohu.com/cityjson?ie=utf-8'
@@ -199,7 +206,8 @@ export default {
             name: res.data.admin.name,
             roles: res.data.admin.roles,
             avatar: res.data.admin.avatar,
-            password: res.data.admin.password
+            password: res.data.admin.password,
+            birthday: res.data.admin.createTime
           }
           // alert(res.data.admin.id)
 
@@ -221,7 +229,6 @@ export default {
               path: '/',
               query: {
                 roleId: roleId
-                // userIp: this.userIp
               }
             })
           }
@@ -262,11 +269,24 @@ export default {
       this.init()
     },
     githubLogin() {
+      // const redirect_uri = 'http://localhost:8080/oauth2/code/github'
       const authorize_uri = 'https://github.com/login/oauth/authorize'
       const client_id = 'a29c48c1e7c4f774c6c9'
       const redirect_uri = 'http://localhost:8080/oauth2/code/github'
       window.location.href = `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}`
+
       alert('注册成功,初始密码123456')
+    },
+    githubLoginSecond() {
+      this.$axios({
+        method: 'get',
+        url: this.GLOBAL.baseUrl + '/oauth2/code/github'
+      }).then((res) => {
+        let map = res.data.map
+        localStorage.setItem('map', map)
+        this.$store.commit('setGitHubmap', map)
+        this.$router.push('/auth')
+      })
     }
   },
   computed: {},

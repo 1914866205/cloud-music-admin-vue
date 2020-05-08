@@ -26,49 +26,52 @@ Vue.use(MuseUI)
 Vue.config.productionTip = false
 Vue.prototype.GLOBAL = global_
 
-// 钩子函数,全局钩子
-router.beforeEach((to, from, next) => {
-  let token = localStorage.getItem('token')
-  let isLogin
-  if (token) {
-    isLogin = true
-  } else {
-    isLogin = false
-  }
-  //true:有token
-  //false:无token
-  if (isLogin) {
-    //如果是去登录页
-    if (to.path === '/login') {
-      //就放行
-      return next({ path: '/' })
-    }
-    //如果不是去登录页，也放行
-    next()
-  } else {
-    //如果不是去登录页
-    if (to.path !== '/login') {
-      //就跳到登录页
-      return next({ path: '/login' })
-    } else {
-      //如果是去登录页
-      //就放行
-      next()
-    }
-  }
-})
+// // 钩子函数,全局钩子
+// router.beforeEach((to, from, next) => {
+//   let token = localStorage.getItem('token')
+//   let isLogin
+//   if (token) {
+//     isLogin = true
+//   } else {
+//     isLogin = false
+//   }
+//   //true:有token
+//   //false:无token
+//   if (isLogin) {
+//     //如果是去登录页
+//     if (to.path === '/login') {
+//       //就放行
+//       return next({ path: '/' })
+//     }
+//     //如果不是去登录页，也放行
+//     next()
+//   } else {
+//     //如果不是去登录页
+//     if (to.path !== '/login') {
+//       if (to.path == '/auth') {
+//         return next()
+//       }
+//       //就跳到登录页
+//       return next({ path: '/login' })
+//     } else {
+//       //如果是去登录页
+//       //就放行
+//       next()
+//     }
+//   }
+// })
 
-//全局请求拦截
-axios.interceptors.request.use((config) => {
-  //请求的接口不是登录和验证码的接口
-  if (['/sysAdmin/login', '/captcha'].indexOf(config.url) === -1) {
-    const token = localStorage.getItem('token')
-    if (token) {
-      config.headers.Authorization = token
-    }
-  }
-  return config
-})
+// //全局请求拦截
+// axios.interceptors.request.use((config) => {
+//   //请求的接口不是登录和验证码的接口
+//   if (['/sysAdmin/login', '/captcha'].indexOf(config.url) === -1) {
+//     const token = localStorage.getItem('token')
+//     if (token) {
+//       config.headers.Authorization = token
+//     }
+//   }
+//   return config
+// })
 
 var worker = new Worker('src/main.js')
 

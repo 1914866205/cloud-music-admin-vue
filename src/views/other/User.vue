@@ -182,10 +182,12 @@ export default {
       client: '',
       file: '',
       id: this.$store.state.admin.id,
-      roles: this.$store.state.admin.roles
+      roles: this.$store.state.admin.roles,
+      birthday: this.$store.state.admin.birthday
     }
   },
   created() {
+    // alert(this.birthday)
     // alert(this.$store.state.admin.name)
     // console(this.userInfo.name)
     // console(this.userInfo.password)
@@ -246,7 +248,8 @@ export default {
           name: this.userInfo.name,
           roles: this.$store.state.admin.roles,
           avatar: this.userInfo.avatar,
-          password: this.userInfo.password
+          password: this.userInfo.password,
+          birthday: this.birthday
         }
         // alert(admin)
         //存admin
@@ -356,7 +359,8 @@ export default {
           name: _this.userInfo.name,
           roles: _this.roles,
           avatar: _this.userInfo.avatar,
-          password: _this.userInfo.password
+          password: _this.userInfo.password,
+          birthday: _this.birthday
         }
         // 存admin
         console.log(admin)
