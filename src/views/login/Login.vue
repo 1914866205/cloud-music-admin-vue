@@ -275,7 +275,7 @@ export default {
       const redirect_uri = 'http://localhost:8080/oauth2/code/github'
       window.location.href = `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}`
 
-      alert('注册成功,初始密码123456')
+      // alert('注册成功,初始密码123456')
     },
     githubLoginSecond() {
       this.$axios({
@@ -285,7 +285,7 @@ export default {
         let map = res.data.map
         localStorage.setItem('map', map)
         this.$store.commit('setGitHubmap', map)
-        this.$router.push('/auth')
+        this.$router.push('/githubinfo')
       })
     }
   },
