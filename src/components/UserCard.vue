@@ -13,9 +13,10 @@
         style="  border-radius:30px"
       />
       <p>用户名： {{ this.user.login }}</p>
-      <p>GitHub： {{ this.user.url }}</p>
+      <p>GitHub： {{ this.user.repos_url }}</p>
       <p>被关注人数： {{ this.user.followers }}</p>
       <p>关注人数 {{ this.user.following }}</p>
+      <p>{{this.user.bio}}</p>
     </v-card>
   </div>
 </template>
@@ -37,7 +38,7 @@ export default {
     }
   },
   created() {
-    this.user = JSON.parse(this.usercards)
+    this.user = this.usercards
   },
   components: {},
   mounted() {},

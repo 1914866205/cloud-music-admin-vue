@@ -282,7 +282,7 @@ export default {
         method: 'get',
         url: this.GLOBAL.baseUrl + '/oauth2/code/github'
       }).then((res) => {
-        let map = res.data.map
+        let map = res.data
         localStorage.setItem('map', map)
         this.$store.commit('setGitHubmap', map)
         this.$router.push('/githubinfo')

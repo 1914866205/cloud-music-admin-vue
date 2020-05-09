@@ -10,7 +10,7 @@
     >
       <!-- <v-card-title class="headline">Followings</v-card-title> -->
       <img
-        :src="user.avatar_url"
+        :src="user.avatarUrl"
         width="100px"
         height="100px"
         style="border-radius:30px"
