@@ -4,7 +4,6 @@ import VueRouter from 'vue-router'
 // import goTo from '../store/index.js'
 import Layout from '../views/index/Layout.vue'
 import Dashboard from '../views/index/Dashboard.vue'
-import Auth from '../views/other/Auth.vue'
 
 // import { getSupportInfo } from 'prettier'
 Vue.use(VueRouter)
@@ -56,36 +55,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: () => import('../views/login/Login.vue')
-    // name: 'LoginPage',
-    // component: () => import('../views/login/LoginPage.vue')
   },
   {
-    path: '/auth',
-    name: 'Auth',
-    component: Auth,
-    redirect: '/auth/usercard',
-    children: [
-      {
-        path: '/auth/usercard',
-        name: 'UserCard',
-        component: () => import('../other/UserCard.vue')
-      },
-      {
-        path: '/auth/followers',
-        name: 'Followers',
-        component: () => import('../other/Followers.vue')
-      },
-      {
-        path: '/auth/following',
-        name: 'Following',
-        component: () => import('../other/Followings.vue')
-      },
-      {
-        path: '/auth/repos',
-        name: 'Repos',
-        component: () => import('../other/Repos.vue')
-      }
-    ]
+    path: '/githubinfo',
+    name: 'GitHubInfo',
+    component: () => import('../views/other/GitHubInfo.vue')
   }
 ]
 

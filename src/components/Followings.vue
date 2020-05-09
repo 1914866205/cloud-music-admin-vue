@@ -1,11 +1,12 @@
 <template>
   <div>
-    Followers
+    Followings
   </div>
 </template>
+
 <script>
 export default {
-  name: 'Followers',
+  name: 'Followings',
   data() {
     return {}
   },

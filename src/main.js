@@ -10,6 +10,8 @@ import 'at-ui-style' // 引入组件样式
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import global_ from '@/util/Global'
+import 'material-design-icons-iconfont/dist/material-design-icons.css' //引入图标
+
 //引入localforage
 // npm intall --save localforage vlf
 // import Vlf from 'vlf'
@@ -73,35 +75,35 @@ Vue.prototype.GLOBAL = global_
 //   return config
 // })
 
-var worker = new Worker('src/main.js')
+// var worker = new Worker('src/main.js')
 
-//postMessage(msg);
-//postMessage方法把在新线程执行的结果发送到浏览器的js引擎线程里
-worker.onmessage = function() {
-  alert('开始刷新token')
-  //获取在新线程中执行的js文件发送的数据 用event.data接收数据
-  this.$axios({
-    method: 'post',
-    // url: 'http://localhost:8080/tokenFlush',
-    url: this.GLOBAL.baseUrl + '/tokenFlush',
-    data: {
-      token: this.$store.token
-    }
-  }).then((res) => {
-    //存token
-    localStorage.setItem('token', res.data.token)
-    this.$store.commit('setToken', res.data.token)
-  })
-}
-setTimeout(function() {
-  worker.terminate()
-  //terminate方法用于关闭worker线程
-}, 5 * 50 * 1000)
+// //postMessage(msg);
+// //postMessage方法把在新线程执行的结果发送到浏览器的js引擎线程里
+// worker.onmessage = function() {
+//   alert('开始刷新token')
+//   //获取在新线程中执行的js文件发送的数据 用event.data接收数据
+//   this.$axios({
+//     method: 'post',
+//     // url: 'http://localhost:8080/tokenFlush',
+//     url: this.GLOBAL.baseUrl + '/tokenFlush',
+//     data: {
+//       token: this.$store.token
+//     }
+//   }).then((res) => {
+//     //存token
+//     localStorage.setItem('token', res.data.token)
+//     this.$store.commit('setToken', res.data.token)
+//   })
+// }
+// setTimeout(function() {
+//   worker.terminate()
+//   //terminate方法用于关闭worker线程
+// }, 5 * 50 * 1000)
 
-setTimeout(function() {
-  worker = new Worker('src/main.js')
-  //再次开启worker线程
-}, 5 * 60 * 1000)
+// setTimeout(function() {
+//   worker = new Worker('src/main.js')
+//   //再次开启worker线程
+// }, 5 * 60 * 1000)
 
 new Vue({
   router,
