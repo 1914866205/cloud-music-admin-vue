@@ -8,6 +8,7 @@ const store = new Vuex.Store({
     token: localStorage.getItem('token'),
     roleId: localStorage.getItem('roleId'),
     userIp: localStorage.getItem('userIp'),
+    gitHubMap: localStorage.getItem('gitHubMap'),
     admin: JSON.parse(localStorage.getItem('admin')),
     //按钮权限
     menuList: JSON.parse(localStorage.getItem('menuList'))
@@ -29,6 +30,9 @@ const store = new Vuex.Store({
     },
     setUserIp(state, data) {
       state.userIp = data
+    },
+    setGitHubMap(state, data) {
+      state.gitHubMap = data
     }
   },
   actions: {}
