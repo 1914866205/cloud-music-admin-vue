@@ -67,11 +67,11 @@
           <mu-button
             @click="githubLogin"
             style="background-color:#448AFF;color:white"
-          >Github一键注册</mu-button>
+          >Github半前半后端</mu-button>
           <mu-button
             @click="githubLoginSecond"
             style="background-color:#448AFF;color:white"
-          >Github一键登录</mu-button>
+          >Github纯后端</mu-button>
         </mu-form-item>
       </mu-form>
     </mu-container>
@@ -281,12 +281,16 @@ export default {
       this.$axios({
         method: 'get',
         url: this.GLOBAL.baseUrl + '/oauth2/code/github'
-      }).then((res) => {
-        let map = res.data
-        localStorage.setItem('map', map)
-        this.$store.commit('setGitHubmap', map)
-        this.$router.push('/githubinfo')
       })
+
+      // alert('请稍等')
+      // let GitHubmap = res.data
+      // console.log('**********')
+      // localStorage.setItem('GitHubmap', GitHubmap)
+      // this.$store.commit('setGitHubmap', GitHubmap)
+      // console.log('**********')
+      // this.$router.push('/githubinfo')
+      // })
     }
   },
   computed: {},
