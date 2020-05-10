@@ -5,8 +5,8 @@
       color="#385F73"
       dark
       width="380px"
-      v-for="user in followings"
-      :key="user"
+      v-for="(user, index) in followings"
+      :key="index"
     >
       <!-- <v-card-title class="headline">Followings</v-card-title> -->
       <img
@@ -15,14 +15,24 @@
         height="100px"
         style="border-radius:30px"
       />
-      <button>unfollow</button>
+      <mybutton
+        color="#ccc"
+        dark
+        small
+        @click.native="handleClick($event, index)"
+      ><span>UnFollow</span>
+        <v-icon
+          slot="suffix-icon"
+          color="white"
+        >mdi-cancel</v-icon>
+      </mybutton>
       <p>用户名： {{ user.login }}</p>
       <p>GitHub： {{ user.url }}</p>
     </v-card>
   </div>
 </template>
-
 <script>
+import mybutton from '../components/MyButton'
 export default {
   name: 'Followings',
   props: {
@@ -34,9 +44,16 @@ export default {
     }
   },
   created() {},
-  components: {},
+  components: {
+    mybutton
+  },
   mounted() {},
-  methods: {},
+  methods: {
+    handleClick(event, index) {
+      console.log(index)
+      this.$emit('cancel-follow', index)
+    }
+  },
   computed: {}
 }
 </script>

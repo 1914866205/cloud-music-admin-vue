@@ -65,7 +65,6 @@ import usercards from '../../components/UserCard.vue'
 import followers from '../../components/Followers.vue'
 import followings from '../../components/Followings.vue'
 import repositorys from '../../components/Repositorys.vue'
-
 export default {
   name: 'GitHubInfo',
   data() {
@@ -87,13 +86,12 @@ export default {
   },
   created() {
     let code = this.$route.query.code
-    // alert(code + '**********')
     this.$axios({
       method: 'get',
       url: this.GLOBAL.baseUrl + '/oauth2/code/github?code=' + code
     }).then((res) => {
+      //数组
       this.usercards = res.data.data.users[0]
-      alert(this.usercards + '**********' + res.data.data.users[0])
       this.followings = res.data.data.followings[0]
       this.followers = res.data.data.followers[0]
       this.repositorys = res.data.data.repositories[0]

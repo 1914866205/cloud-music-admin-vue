@@ -7,16 +7,16 @@
     >
       <v-card-title class="headline">UserCard </v-card-title>
       <img
-        :src="this.user.avatar_url"
+        :src="this.usercards.avatar_url"
         width="100px"
         height="100px"
         style="  border-radius:30px"
       />
-      <p>用户名： {{ this.user.login }}</p>
-      <p>GitHub： {{ this.user.repos_url }}</p>
-      <p>被关注人数： {{ this.user.followers }}</p>
-      <p>关注人数 {{ this.user.following }}</p>
-      <p>{{this.user.bio}}</p>
+      <p>用户名： {{ this.usercards.login }}</p>
+      <p>GitHub： {{ this.usercards.repos_url }}</p>
+      <p>被关注人数： {{ this.usercards.followers }}</p>
+      <p>关注人数 {{ this.usercards.following }}</p>
+      <p>{{this.usercards.bio}}</p>
     </v-card>
   </div>
 </template>
@@ -25,9 +25,7 @@
 export default {
   name: 'UserCard',
   data() {
-    return {
-      user: ''
-    }
+    return {}
   },
   props: {
     usercards: {
@@ -38,7 +36,7 @@ export default {
     }
   },
   created() {
-    this.user = this.usercards
+    console.log(this.usercards)
   },
   components: {},
   mounted() {},
